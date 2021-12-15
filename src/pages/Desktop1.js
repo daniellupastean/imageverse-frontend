@@ -10,16 +10,24 @@ const Span = styled.span`
     font-size: 32px;
     line-height: 59px;
     color: #359AEF;
+    @media (max-width:400px){
+      font-size: 0;
+  }
 `;
 const MenuBar = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 300px;
-    height: 100vh;
+    padding: 20px;
+    height: calc(100vh-20px);
     font-size: 16px;
     background: #0F1319;
 
+    @media (max-width:400px){
+        width: 0;
+        height: 0;
+    }
 `;
 const Logout = styled.div`
     width: 100%;
@@ -38,7 +46,19 @@ const Logout = styled.div`
     }
     svg{
         margin-right: 30px;
+        size: 17px;
     }
+    @media (max-width:400px){
+      width:0;
+      margin: 0;
+      Link{
+          font-size: 0;
+      }
+      svg{
+          size: 0;
+          margin-right: 0;
+      }
+  }
 `;
 const ImageUser = styled.div`
     margin-top: 10px;
@@ -63,6 +83,10 @@ const PageButton = styled.button`
   }
   svg{
       margin-right: 30px;
+      size:14px;
+  }
+  @media (max-width:400px){
+      width:0;
   }
 `;
 const Text = styled.h3`
@@ -70,20 +94,45 @@ const Text = styled.h3`
     font-size: 18px;
     font-weight: 400;
     color: #FFFFFF;
+    @media (max-width:400px){
+      font-size: 0;
+  }
 `;
-
+const Contn = styled.div`
+    display: flex;
+`;
+const CartContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    margin: 40px;
+  
+    justify-content: center;
+    align-items: center;
+`;
+const Cart = styled.div`
+    background: #1F2329;
+    border-radius: 8px;
+    height: 206px;
+    width: 171px;
+    margin: 15px;
+`;
 export default function Desktop1(){
     return (
-        <div>
+        <Contn>
             <MenuBar>
                 <div><Span>IMAGE</Span><Span style={{"color": "#FFFFFF"}}>VERSE</Span></div>
                 <ImageUser></ImageUser>
                 <PageButton>
-                    <p><Text><FaArrowUp size="17px"/>Upload pictures</Text></p>
+                    <p><Text><FaArrowUp/>Upload pictures</Text></p>
                 </PageButton>
-                <PageButton><Text><FaImages size="17px"/>My gallery</Text></PageButton>
-                <Logout><Link to="/login"><FiLogOut size="14px"/>Log out</Link></Logout>
+                <PageButton><Text><FaImages/>My gallery</Text></PageButton>
+                <Logout><Link to="/login"><FiLogOut/>Log out</Link></Logout>
             </MenuBar>
-        </div>
+            <CartContainer>
+                <Cart></Cart><Cart></Cart><Cart></Cart><Cart></Cart><Cart></Cart>
+                <Cart></Cart><Cart></Cart><Cart></Cart><Cart></Cart><Cart></Cart>
+                <Cart></Cart><Cart></Cart><Cart></Cart><Cart></Cart><Cart></Cart>
+            </CartContainer>
+        </Contn>
     );
 }
