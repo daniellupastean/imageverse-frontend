@@ -3,7 +3,6 @@ import {
   Title,
   Button,
   Input,
-  TxtSpan,
   Motto,
   Container,
 } from '../components/form.styled';

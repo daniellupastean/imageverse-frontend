@@ -1,8 +1,84 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FaArrowUp } from 'react-icons/fa';
 import { FaImages } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
+import { useEffect, useState } from 'react';
+
+export default function Gallery() {
+  let navigate = useNavigate();
+  const [images, setImages] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+      const token = localStorage.getItem('token');
+      const url = `${process.env.REACT_APP_API_URL}/gallery`;
+      const config = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      };
+
+      try {
+        const fetchResponse = await fetch(url, config);
+        const data = await fetchResponse.json();
+        if (!data || data.message) {
+          console.log('Something went wrong');
+          return;
+        }
+
+        const imagesFromDB = data;
+        const newImages = imagesFromDB.map((image, i) => (
+          <Card key={i} link={image.link} />
+        ));
+        setImages(newImages);
+
+        console.log(imagesFromDB);
+        console.log('Images retrieved successfully');
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    fetchData();
+  }, []);
+
+  const handleLogout = (event) => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
+  return (
+    <PageContainer>
+      <Sidebar>
+        <div>
+          <Span>IMAGE</Span>
+          <Span style={{ color: '#FFFFFF' }}>VERSE</Span>
+        </div>
+        <ImageUser></ImageUser>
+        <PageButton>
+          <div>
+            <Text>
+              <FaArrowUp />
+              Upload pictures
+            </Text>
+          </div>
+        </PageButton>
+        <PageButton>
+          <Text>
+            <FaImages />
+            My gallery
+          </Text>
+        </PageButton>
+        <Logout onClick={handleLogout}>
+          <FiLogOut />
+          Log out
+        </Logout>
+      </Sidebar>
+      <CardsContainer>{images}</CardsContainer>
+    </PageContainer>
+  );
+}
 
 const Span = styled.span`
   font-family: Montserrat;
@@ -26,36 +102,38 @@ const Sidebar = styled.div`
   max-height: 100vh;
   position: sticky;
   top: 0;
+
+  transition: margin 1s;
+
+  @media (max-width: 1000px) {
+    margin-left: -300px;
+  }
 `;
-const Logout = styled.div`
+const Logout = styled.button`
   width: 100%;
   margin-top: auto;
   margin-bottom: 20px;
+  cursor: pointer;
+  padding: 10px 0;
+  padding-left: 10%;
+  color: #ffffff;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 400;
 
   a {
-    padding-left: 10%;
     text-decoration: none;
-    color: #ffffff;
     font-family: Montserrat;
-    cursor: pointer;
   }
-  a:hover {
+  &:hover {
     filter: brightness(0.8);
+    background: #1f2329;
   }
   svg {
     margin-right: 30px;
     size: 17px;
-  }
-  @media (max-width: 400px) {
-    width: 0;
-    margin: 0;
-    Link {
-      font-size: 0;
-    }
-    svg {
-      size: 0;
-      margin-right: 0;
-    }
   }
 `;
 const ImageUser = styled.div`
@@ -88,7 +166,7 @@ const PageButton = styled.button`
     width: 0;
   }
 `;
-const Text = styled.h3`
+const Text = styled.p`
   font-family: Montserrat;
   font-size: 18px;
   font-weight: 400;
@@ -111,45 +189,12 @@ const CardsContainer = styled.div`
   align-content: flex-start;
 `;
 const Card = styled.div`
-  background: #1f2329;
+  background: url(${(p) => p.link});
   border-radius: 8px;
-  height: 206px;
-  width: 171px;
+  height: 200px;
+  width: 260px;
   margin: 15px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
-export default function Gallery() {
-  const cards = [];
-  for (let i = 0; i < 1000; i++) cards.push(<Card />);
-  return (
-    <PageContainer>
-      <Sidebar>
-        <div>
-          <Span>IMAGE</Span>
-          <Span style={{ color: '#FFFFFF' }}>VERSE</Span>
-        </div>
-        <ImageUser></ImageUser>
-        <PageButton>
-          <p>
-            <Text>
-              <FaArrowUp />
-              Upload pictures
-            </Text>
-          </p>
-        </PageButton>
-        <PageButton>
-          <Text>
-            <FaImages />
-            My gallery
-          </Text>
-        </PageButton>
-        <Logout>
-          <Link to="/login">
-            <FiLogOut />
-            Log out
-          </Link>
-        </Logout>
-      </Sidebar>
-      <CardsContainer>{cards}</CardsContainer>
-    </PageContainer>
-  );
-}

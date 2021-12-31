@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import ResetPasswordPage from './pages/ResetPasswordPage';
+// import ResetPasswordPage from './pages/ResetPasswordPage';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Gallery from './pages/Gallery';
 
@@ -24,7 +24,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        {/* <Route path="/reset-password" element={<ResetPasswordPage />} /> */}
         <Route path="/gallery" element={<Gallery />} />
       </Routes>
     </Router>
