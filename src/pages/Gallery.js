@@ -5,7 +5,7 @@ import { FaImages } from 'react-icons/fa';
 import { FiLogOut } from 'react-icons/fi';
 import { useEffect, useState } from 'react';
 
-export default function Gallery() {
+export default function Gallery(props) {
   let navigate = useNavigate();
   const [images, setImages] = useState([]);
   useEffect(() => {
@@ -45,7 +45,7 @@ export default function Gallery() {
 
   const handleLogout = (event) => {
     localStorage.removeItem('token');
-    navigate('/login');
+    props.setToken(null);
   };
 
   return (
@@ -184,17 +184,22 @@ const CardsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 40px;
-
+  width: 100%;
   justify-content: center;
   align-content: flex-start;
 `;
 const Card = styled.div`
   background: url(${(p) => p.link});
   border-radius: 8px;
-  height: 200px;
+  padding-bottom: 200px;
   width: 260px;
   margin: 15px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+
+  @media (max-width: 676px) {
+    width: 100%;
+    padding-bottom: 75%;
+  }
 `;

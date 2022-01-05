@@ -85,7 +85,7 @@ export const Motto = styled.p`
   }
 `;
 export const Container = styled.div`
-  padding: 50px;
+  padding: 20px 50px 50px 50px;
   display: flex;
   flex-direction: column;
   align-items: center;

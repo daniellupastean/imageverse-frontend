@@ -10,7 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../components/Logo';
 import { useState } from 'react';
 
-export default function LoginPage() {
+export default function LoginPage(props) {
   let navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -46,8 +46,8 @@ export default function LoginPage() {
         return;
       }
       localStorage.setItem('token', data.accessToken);
+      props.setToken(data.accessToken);
       console.log('Successful login');
-      navigate('/gallery');
     } catch (e) {
       console.log(e);
     }

@@ -52,7 +52,6 @@ export default function RegisterPage() {
       }
       localStorage.setItem('token', data.accessToken);
       console.log(data.message);
-      navigate('/gallery');
     } catch (e) {
       console.log(e);
     }
