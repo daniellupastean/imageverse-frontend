@@ -68,7 +68,7 @@ function App() {
       }
     }
     token && fetchData();
-  }, []);
+  }, [token]);
 
   return (
     <Router>
