@@ -5,6 +5,7 @@ import {
   Input,
   Motto,
   Container,
+  ErrorMessage,
 } from '../components/form.styled';
 import { Link } from 'react-router-dom';
 import Logo from '../components/Logo';
@@ -13,6 +14,7 @@ import { useState } from 'react';
 export default function LoginPage(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
 
   const onEmailChange = (event) => {
     setEmail(event.target.value);
@@ -41,8 +43,12 @@ export default function LoginPage(props) {
       const data = await fetchResponse.json();
       if (!data || data.message || !data.accessToken) {
         console.log('Something went wrong');
+        setPassword('');
+        setEmail('');
+        setError('Invalid credentials');
         return;
       }
+      setError(null);
       localStorage.setItem('token', data.accessToken);
       props.setToken(data.accessToken);
       console.log('Successful login');
@@ -62,19 +68,18 @@ export default function LoginPage(props) {
           onChange={onEmailChange}
           type={'text'}
           placeholder="Email"
-          required
         />
         <Input
           value={password}
           onChange={onPasswordChange}
           type={'password'}
           placeholder="Password"
-          required
         />
         <p style={{ width: '75%', textAlign: 'right', marginTop: '5px' }}>
           Forgot your <Link to="/reset-password">password</Link> ?
         </p>
         {/*Aici ar fi trebuit sa fie un input type="submit"*/}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <Button type="submit">LOGIN</Button>
         <p>
           Don't have an account? <Link to="/register">Register</Link>
